@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 
 // Router
-import { Link, useHistory, useParams } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 import Alerta from "../components/Alerta";
 
 // Config
@@ -29,6 +29,13 @@ const NewPassword = () => {
   const { id } = useParams();
   const navigate = useHistory();
 
+  const handleChange = (e) => {
+    setUser({
+      ...user,
+      [e.target.name]: e.target.value,
+    });
+  };
+
   useEffect(() => {
     const authParams = async () => {
       const userActual = localStorage.getItem("email");
@@ -54,14 +61,7 @@ const NewPassword = () => {
       setUser({ ...user, idUser: id });
     };
     authParams();
-  }, [id]);
-
-  const handleChange = (e) => {
-    setUser({
-      ...user,
-      [e.target.name]: e.target.value,
-    });
-  };
+  }, [id]); //eslint-disable-line
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -136,7 +136,6 @@ const NewPassword = () => {
         navigate.push("/");
       }, 2000);
     } catch (err) {
-      console.log(err);
       if (err.response.data.Request) {
         setAlert({ msg: "Please try again later", error: true });
 
@@ -153,7 +152,7 @@ const NewPassword = () => {
 
   return (
     <div className="w-screen h-screen flex justify-center items-center">
-      <div className="w-1/3 p-4 bg-white rounded-lg border border-gray-200 shadow-md sm:p-6 lg:p-8 ">
+      <div className="w-3/4 md:w-2/3 lg:w-1/3 p-4 bg-white rounded-lg border border-gray-200 shadow-md sm:p-6 lg:p-8 ">
         <form className="space-y-6" onSubmit={handleSubmit}>
           <h5 className="text-xl font-medium text-gray-900  text-center">
             New Password
